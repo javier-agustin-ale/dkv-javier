@@ -23,4 +23,15 @@ export const __mockCars: Car[] = [
     color: null,
     mileage: 10000,
   },
+  {
+    id: '3',
+    name: 'Toyota Cruze',
+    manufacturer: 'Toyota',
+    model: 'JS-1',
+    fuel: 'Diesel',
+    type: 'Car',
+    vin: 'GCPM64F23MR381419',
+    color: 'black',
+    mileage: 1500,
+  },
 ];

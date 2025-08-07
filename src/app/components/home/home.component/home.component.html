@@ -1,20 +1,32 @@
-<table>
-  <tr class="table-header">
-    <th>Name</th>
-    <th>Manufacter</th>
-    <th>Model</th>
-    <th>Milage</th>
-  </tr>
-  @for(item of cars; track item.id) {
-  <tr class="table-body">
-    <td>{{ item.name }}</td>
-    <td>{{ item.manufacturer }}</td>
-    <td>{{ item.model }}</td>
-    @if(item.mileage) {
-    <td>{{ item.mileage }}</td>
-    } @else {
-    <td>-</td>
-    }
-  </tr>
-  }
-</table>
+<div class="container">
+  <div class="title-container">
+    <div>
+      <h2>Cars DKV</h2>
+    </div>
+    <div class="new-car-container">
+      <button class="new-car-button">New Car</button>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <th>Name</th>
+      <th>Manufacter</th>
+      <th>Model</th>
+      <th>Milage</th>
+    </thead>
+    <tbody>
+      @for(item of cars; track item.id) {
+      <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.manufacturer }}</td>
+        <td>{{ item.model }}</td>
+        @if(item.mileage) {
+        <td>{{ item.mileage }}</td>
+        } @else {
+        <td>-</td>
+        }
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
