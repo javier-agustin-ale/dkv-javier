@@ -1,5 +1,5 @@
 .container {
-  padding-top: 10px;
+  padding: 15px;
 }
 .title-container {
   display: flex;
@@ -40,18 +40,20 @@
   }
 
   tbody {
-    th {
+    tr {
       color: #4d4f52;
+      cursor: pointer;
       td {
         padding: 10px;
         border-bottom: 1px #dbdbdb solid;
+        text-align: center;
       }
     }
 
-    th:nth-child(even) {
+    tr:nth-child(even) {
       background: #eef1f5;
     }
-    th:nth-child(odd) {
+    tr:nth-child(odd) {
       background: #dddede;
     }
   }

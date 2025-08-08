@@ -9,14 +9,16 @@
   </div>
   <table class="table">
     <thead>
-      <th>Name</th>
-      <th>Manufacter</th>
-      <th>Model</th>
-      <th>Milage</th>
+      <tr>
+        <th>Name</th>
+        <th>Manufacter</th>
+        <th>Model</th>
+        <th>Milage</th>
+      </tr>
     </thead>
     <tbody>
-      @for(item of cars; track item.id) {
-      <tr>
+      @for(item of (carsList$ | async); track item.id) {
+      <tr class="row">
         <td>{{ item.name }}</td>
         <td>{{ item.manufacturer }}</td>
         <td>{{ item.model }}</td>
