@@ -1,18 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { NEVER, Observable } from 'rxjs';
 import { Car } from '../../../interfaces/car.interface';
 import { CarService } from '../../../services/car/car.service';
-import { NEVER, Observable } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatRippleModule } from '@angular/material/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NewCarDialog } from '../../new-car/new-car-dialog/new-car-dialog';
-import { config } from 'process';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, MatTableModule, MatPaginator],
+  imports: [CommonModule, MatTableModule, MatPaginator, MatProgressBarModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   providers: [CarService],
@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   }
 
   public carsList$: Observable<Car[]> = NEVER;
-  public loading$: Observable<boolean> = NEVER;
+  public isCarListLoading$: Observable<boolean> = NEVER;
 
   public displayedColumns: string[] = [
     'name',
@@ -34,36 +34,38 @@ export class HomeComponent implements OnInit {
   ];
   public dataSource: MatTableDataSource<Car> = new MatTableDataSource();
 
-  constructor(private carService: CarService, private dialog: MatDialog) {}
+  constructor(
+    private carService: CarService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
 
   public ngOnInit(): void {
-    this.loading$ = this.carService.loading$;
-    this.carsList$ = this.carService.carList$;
-
-    this.carsList$.subscribe((list) => {
-      this.dataSource = new MatTableDataSource<Car>(
-        list.sort((a, b) => a.name.localeCompare(b.name))
-      );
-    });
+    this.defineStreams();
   }
 
-  public rowSelected(row: Car): void {
-    console.log(row);
+  public rowSelected(carId: string): void {
+    this.router.navigate(['/car', carId]);
   }
 
   public addNewCar(): void {
-    this.dialog.open(NewCarDialog, {
+    const dialogRef = this.dialog.open(NewCarDialog, {
       width: '700px',
       maxWidth: '700px',
     });
 
-    // const dialogRef = this.dialog.open(NewCarDialog, {
-    //   data: row,
-    // });
-    // dialogRef.afterClosed().subscribe(success) => {
-    //   console.log(newCarForm);
-    // });
+    dialogRef.afterClosed().subscribe((success) => {
+      if (success) this.carService.updateCarList$();
+    });
   }
 
-  //this.carService.updateCarList$();
+  public defineStreams(): void {
+    this.isCarListLoading$ = this.carService.isCarListLoading$;
+    this.carsList$ = this.carService.carList$;
+
+    this.carsList$.subscribe((list) => {
+      const carList: Car[] = list.sort((a, b) => a.name.localeCompare(b.name));
+      this.dataSource.data = carList;
+    });
+  }
 }

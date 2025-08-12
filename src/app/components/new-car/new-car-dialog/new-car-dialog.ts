@@ -1,22 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import {
   MatDialogContent,
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { CarService } from '../../../services/car/car.service';
-import { NewCarForm } from '../../../interfaces/new-car-form.interface';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { take } from 'rxjs';
+import { NewCarForm } from '../../../interfaces/new-car-form.interface';
 import { NewCar } from '../../../interfaces/new-car.interface';
+import { CarService } from '../../../services/car/car.service';
 
 @Component({
   selector: 'app-new-car-dialog',
@@ -27,6 +28,7 @@ import { NewCar } from '../../../interfaces/new-car.interface';
     MatInputModule,
     MatButtonModule,
     ReactiveFormsModule,
+    MatSnackBarModule,
   ],
   templateUrl: './new-car-dialog.html',
   styleUrl: './new-car-dialog.scss',
@@ -37,6 +39,7 @@ export class NewCarDialog implements OnInit {
 
   constructor(
     private carService: CarService,
+    private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<NewCarDialog>
   ) {}
 
@@ -45,12 +48,36 @@ export class NewCarDialog implements OnInit {
   }
 
   public saveNewCar(): void {
+    const formValue = this.newCarForm.value as NewCar;
+
+    const nullableFields = ['color', 'mileage'];
+
+    const hasEmptyStrings = Object.entries(formValue).some(([key, val]) => {
+      if (nullableFields.includes(key)) {
+        return false;
+      }
+      return typeof val === 'string' && val.trim() === '';
+    });
+
+    if (this.newCarForm.invalid || hasEmptyStrings) {
+      this.newCarForm.markAllAsTouched();
+      this.showSnackBar('Please complete all required fields', 'Accept', 2000);
+      return;
+    }
+
     this.carService
-      .saveNewCar(this.newCarForm.value as NewCar)
+      .saveNewCar$(this.newCarForm.value as NewCar)
       .pipe(take(1))
       .subscribe((response) => {
-        if (response) this.dialogRef.close();
-        // Manage error when saving
+        if (!response) {
+          this.showSnackBar(
+            'There was an error while saving, please try again',
+            'Accept',
+            3000
+          );
+          return;
+        }
+        this.dialogRef.close(response);
       });
   }
 
@@ -82,6 +109,18 @@ export class NewCarDialog implements OnInit {
       }),
       color: new FormControl(null),
       mileage: new FormControl(null),
+    });
+  }
+
+  private showSnackBar(
+    message: string,
+    button: string,
+    duration: number
+  ): void {
+    this.snackBar.open(message, button, {
+      duration: duration,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
     });
   }
 }

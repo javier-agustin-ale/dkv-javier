@@ -1,0 +1,33 @@
+:host {
+  background-color: lightgray;
+}
+.container {
+  width: 85%;
+  padding: 20px;
+  margin: auto;
+}
+
+.car-name-container {
+  padding-top: 10px;
+  text-align: center;
+}
+
+.table {
+  padding-top: 10px;
+  th {
+    background-color: #dfb1d4;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #f1f1f1;
+  }
+
+  tr {
+    color: #4d4f52;
+    background-color: #d5dae2;
+    td {
+      padding: 10px;
+      border-bottom: 1px #dbdbdb solid;
+      text-align: center;
+    }
+  }
+}
