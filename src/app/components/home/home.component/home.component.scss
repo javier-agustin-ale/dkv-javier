@@ -4,10 +4,14 @@
 .title-container {
   display: flex;
   justify-content: space-between;
-  padding: 0 5px;
+  padding: 0 5px 10px;
+}
+.name {
+  padding-left: 15px;
 }
 .new-car-container {
   width: 15%;
+  padding-top: 10px;
 }
 .new-car-button {
   width: 95%;
@@ -25,36 +29,42 @@
   color: #fff;
 }
 
+.table-container {
+  padding: 0 20px;
+}
+
 .table {
-  width: 100%;
-
-  thead {
+  th {
     background-color: #f18400;
-    th {
-      text-transform: uppercase;
-      text-align: center;
+    text-align: center;
+    padding: 10px;
+    color: white;
+    border: 1px solid #f1f1f1;
+  }
+
+  tr {
+    color: #4d4f52;
+    cursor: pointer;
+    td {
       padding: 10px;
-      color: white;
-      border: 1px solid #f1f1f1;
+      border-bottom: 1px #dbdbdb solid;
+      text-align: center;
     }
   }
 
-  tbody {
-    tr {
-      color: #4d4f52;
-      cursor: pointer;
-      td {
-        padding: 10px;
-        border-bottom: 1px #dbdbdb solid;
-        text-align: center;
-      }
-    }
-
-    tr:nth-child(even) {
-      background: #eef1f5;
-    }
-    tr:nth-child(odd) {
-      background: #dddede;
-    }
+  tr:nth-child(even) {
+    background: #eef1f5;
   }
+  tr:nth-child(odd) {
+    background: #e2e5e5;
+  }
+
+  .row:hover {
+    background-color: rgb(195, 192, 192);
+  }
+}
+
+.paginator {
+  padding-top: 5px;
+  background: #dddede;
 }

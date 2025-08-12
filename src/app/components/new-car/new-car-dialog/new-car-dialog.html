@@ -1,0 +1,60 @@
+<h2 mat-dialog-title>Add new car</h2>
+<mat-dialog-content>
+  <form [formGroup]="newCarForm" (submit)="saveNewCar()">
+    <div class="field-container">
+      <mat-form-field class="form-field">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Manufacturer</mat-label>
+        <input matInput formControlName="manufacturer" />
+      </mat-form-field>
+    </div>
+    <div class="field-container">
+      <mat-form-field class="form-field">
+        <mat-label>Model</mat-label>
+        <input matInput formControlName="model" />
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Fuel</mat-label>
+        <input matInput formControlName="fuel" />
+      </mat-form-field>
+    </div>
+
+    <div class="field-container">
+      <mat-form-field class="form-field">
+        <mat-label>VIN</mat-label>
+        <input matInput formControlName="vin" />
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Type</mat-label>
+        <input matInput formControlName="type" />
+      </mat-form-field>
+    </div>
+    <div class="field-container">
+      <mat-form-field class="form-field">
+        <mat-label>Color</mat-label>
+        <input matInput formControlName="color" />
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Mileage</mat-label>
+        <input matInput formControlName="mileage" type="number" />
+      </mat-form-field>
+    </div>
+
+    <div>
+      <button
+        matButton="outlined"
+        class="submit-button"
+        [disabled]="!newCarForm.valid"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>

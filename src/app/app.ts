@@ -8,6 +8,4 @@ import { HomeComponent } from './components/home/home.component/home.component';
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {
-  protected title = 'dkv-javier';
-}
+export class App {}

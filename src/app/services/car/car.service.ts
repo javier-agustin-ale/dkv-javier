@@ -1,23 +1,38 @@
 import { Injectable, OnInit } from '@angular/core';
-import { delay, NEVER, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, NEVER, Observable, of, take } from 'rxjs';
 import { Car } from '../../interfaces/car.interface';
-import { __mockCars } from '../../__mock/__mockCars';
+import { HttpClient } from '@angular/common/http';
+import { NewCar } from '../../interfaces/new-car.interface';
+import { environment } from '../../environments/environment';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CarService {
-  public carList$: Observable<Car[]> = NEVER;
+  private baseUrl = environment.apiUrl;
+
+  private carListSubject = new BehaviorSubject<Car[]>([]);
+  public carList$: Observable<Car[]> = this.carListSubject.asObservable();
+
   public loading$: Observable<boolean> = NEVER;
 
-  constructor() {
-    this.defineStreams();
+  constructor(private httpClient: HttpClient) {
+    this.updateCarList$();
   }
 
-  private getCarList(): Observable<Car[]> {
-    this.loading$ = of(true);
-    return of(__mockCars).pipe(delay(1000));
+  public updateCarList$(): void {
+    // TODO: Manage errors or list empty
+    this.httpClient
+      .get<Car[]>(this.baseUrl + 'vehicles')
+      .pipe(take(1))
+      .subscribe((carList) => {
+        this.carListSubject.next(carList);
+      });
   }
 
-  private defineStreams(): void {
-    this.carList$ = this.getCarList();
+  public saveNewCar(newCar: NewCar): Observable<boolean> {
+    // Manage saving and return observable true when saved correclty
+    console.log(newCar);
+    return of(true);
   }
 }
