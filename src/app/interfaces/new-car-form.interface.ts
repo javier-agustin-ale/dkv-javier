@@ -7,6 +7,6 @@ export interface NewCarForm {
   fuel: FormControl<string>;
   type: FormControl<string>;
   vin: FormControl<string>;
-  color: FormControl<string | null>; //maybe null
-  mileage: FormControl<number | null>; //maybe null
+  color: FormControl<string | null>;
+  mileage: FormControl<number | null>;
 }

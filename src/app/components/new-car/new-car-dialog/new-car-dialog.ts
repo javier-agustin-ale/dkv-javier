@@ -61,7 +61,7 @@ export class NewCarDialog implements OnInit {
 
     if (this.newCarForm.invalid || hasEmptyStrings) {
       this.newCarForm.markAllAsTouched();
-      this.showSnackBar('Please complete all required fields', 'Accept', 2000);
+      this.showSnackBar('Please complete all required fields.', 'Accept');
       return;
     }
 
@@ -71,9 +71,8 @@ export class NewCarDialog implements OnInit {
       .subscribe((response) => {
         if (!response) {
           this.showSnackBar(
-            'There was an error while saving, please try again',
-            'Accept',
-            3000
+            'There was an error while saving, please try again.',
+            'Accept'
           );
           return;
         }
@@ -112,13 +111,9 @@ export class NewCarDialog implements OnInit {
     });
   }
 
-  private showSnackBar(
-    message: string,
-    button: string,
-    duration: number
-  ): void {
+  private showSnackBar(message: string, button: string): void {
     this.snackBar.open(message, button, {
-      duration: duration,
+      duration: 2500,
       horizontalPosition: 'center',
       verticalPosition: 'top',
     });

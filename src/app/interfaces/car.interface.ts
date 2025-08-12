@@ -6,6 +6,6 @@ export interface Car {
   fuel: string;
   type: string;
   vin: string;
-  color: string | null; //maybe null
-  mileage: number | null; //maybe null
+  color: string | null;
+  mileage: number | null;
 }
