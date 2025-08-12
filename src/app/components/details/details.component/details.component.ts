@@ -17,14 +17,13 @@ import { CarService } from '../../../services/car/car.service';
 export class DetailsComponent implements OnInit {
   public displayedColumns: string[] = [
     'id',
-    // 'name',
     'manufacturer',
     'model',
     'fuel',
     'type',
     'vin',
     'color',
-    'milage',
+    'mileage',
   ];
   public dataSource: MatTableDataSource<Car> = new MatTableDataSource();
   public carName: string = '';

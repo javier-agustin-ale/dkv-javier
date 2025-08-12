@@ -42,10 +42,7 @@ export class CarService {
       .pipe(
         take(1),
         catchError((error) => {
-          this.snackBar.open('Error getting data, please try again.', 'Close', {
-            duration: 3000,
-            verticalPosition: 'top',
-          });
+          this.showSnackBar('Error getting data, please try again.', 'Close');
           return throwError(() => error);
         })
       )
@@ -64,8 +61,16 @@ export class CarService {
       map(() => true),
       catchError((err: HttpErrorResponse) => {
         console.error(err);
+        this.showSnackBar(err.message, 'Close');
         return of(false);
       })
     );
+  }
+
+  private showSnackBar(message: string, button: string): void {
+    this.snackBar.open(message, button, {
+      duration: 3000,
+      verticalPosition: 'top',
+    });
   }
 }
