@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -38,11 +38,9 @@ import { CarService } from '../../../services/car/car.service';
 export class NewCarDialog implements OnInit {
   public newCarForm!: FormGroup<NewCarForm>;
 
-  constructor(
-    private carService: CarService,
-    private snackBar: MatSnackBar,
-    private dialogRef: MatDialogRef<NewCarDialog>
-  ) {}
+  private carService = inject(CarService);
+  private snackBar = inject(MatSnackBar);
+  private dialogRef = inject(MatDialogRef<NewCarDialog>);
 
   public ngOnInit(): void {
     this.createForm();

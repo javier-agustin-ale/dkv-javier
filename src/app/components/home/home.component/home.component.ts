@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -34,11 +34,9 @@ export class HomeComponent implements OnInit {
   ];
   public dataSource: MatTableDataSource<Car> = new MatTableDataSource();
 
-  constructor(
-    private carService: CarService,
-    private router: Router,
-    private dialog: MatDialog
-  ) {}
+  private carService = inject(CarService);
+  private router = inject(Router);
+  private dialog = inject(MatDialog);
 
   public ngOnInit(): void {
     this.defineStreams();

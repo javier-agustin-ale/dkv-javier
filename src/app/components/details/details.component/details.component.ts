@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { take } from 'rxjs';
 import { Car } from '../../../interfaces/car.interface';
 import { CarService } from '../../../services/car/car.service';
 
@@ -29,11 +30,19 @@ export class DetailsComponent implements OnInit {
   public carName: string = '';
 
   private carService = inject(CarService);
-
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   public ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
+    this.getIdFromUrl();
+  }
+
+  public navigateBack(): void {
+    this.router.navigate(['']);
+  }
+
+  private getIdFromUrl(): void {
+    this.route.paramMap.pipe(take(1)).subscribe((params) => {
       const carId = params.get('id');
       if (carId) {
         this.carService.getCarById$(carId).subscribe((car) => {
@@ -42,9 +51,5 @@ export class DetailsComponent implements OnInit {
         });
       }
     });
-  }
-
-  public navigateBack(): void {
-    this.router.navigate(['']);
   }
 }
