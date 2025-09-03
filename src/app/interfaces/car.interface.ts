@@ -1,11 +1,5 @@
-export interface Car {
+import { NewCar } from './new-car.interface';
+
+export interface Car extends NewCar {
   id: string;
-  name: string;
-  manufacturer: string;
-  model: string;
-  fuel: string;
-  type: string;
-  vin: string;
-  color: string | null;
-  mileage: number | null;
 }

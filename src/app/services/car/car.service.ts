@@ -56,13 +56,16 @@ export class CarService {
     return this.httpClient.get<Car>(this.baseUrl + `/vehicles/${carId}`);
   }
 
-  public saveNewCar$(newCar: NewCar): Observable<boolean> {
+  public saveNewCar$(newCar: NewCar): Observable<boolean | HttpErrorResponse> {
     return this.httpClient.post<Car>(this.baseUrl + '/vehicles', newCar).pipe(
-      map(() => true),
+      map(() => {
+        this.updateCarList$();
+        return true;
+      }),
       catchError((err: HttpErrorResponse) => {
         console.error(err);
-        this.showSnackBar(err.message, 'Close');
-        return of(false);
+        this.showSnackBar(err.error, 'Close');
+        return of(err);
       })
     );
   }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -28,11 +28,9 @@ export class DetailsComponent implements OnInit {
   public dataSource: MatTableDataSource<Car> = new MatTableDataSource();
   public carName: string = '';
 
-  constructor(
-    private route: ActivatedRoute,
-    private carService: CarService,
-    private router: Router
-  ) {}
+  private carService = inject(CarService);
+
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   public ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {

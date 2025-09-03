@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
@@ -68,15 +69,12 @@ export class NewCarDialog implements OnInit {
     this.carService
       .saveNewCar$(this.newCarForm.value as NewCar)
       .pipe(take(1))
-      .subscribe((response) => {
-        if (!response) {
-          this.showSnackBar(
-            'There was an error while saving, please try again.',
-            'Accept'
-          );
+      .subscribe((response: boolean | HttpErrorResponse) => {
+        if (typeof response === 'boolean') {
+          this.dialogRef.close(response);
           return;
         }
-        this.dialogRef.close(response);
+        this.showSnackBar(response.error, 'Accept');
       });
   }
 

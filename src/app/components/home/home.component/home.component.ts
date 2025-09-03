@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { NEVER, Observable } from 'rxjs';
+import { NEVER, Observable, take } from 'rxjs';
 import { Car } from '../../../interfaces/car.interface';
 import { CarService } from '../../../services/car/car.service';
 import { NewCarDialog } from '../../new-car/new-car-dialog/new-car-dialog';
@@ -54,8 +54,8 @@ export class HomeComponent implements OnInit {
       maxWidth: '700px',
     });
 
-    dialogRef.afterClosed().subscribe((success) => {
-      if (success) this.carService.updateCarList$();
+    dialogRef.afterClosed().subscribe(() => {
+      this.carService.updateCarList$();
     });
   }
 
@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit {
     this.isCarListLoading$ = this.carService.isCarListLoading$;
     this.carsList$ = this.carService.carList$;
 
-    this.carsList$.subscribe((list) => {
+    this.carsList$.pipe(take(1)).subscribe((list) => {
       const carList: Car[] = list.sort((a, b) => a.name.localeCompare(b.name));
       this.dataSource.data = carList;
     });
